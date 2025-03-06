@@ -28,7 +28,7 @@ But we can easily add it...
 
 Find it [in this article](https://community.ibm.com/community/user/integration/viewdocument/running-the-webmethods-cutom-assets)
 
-Download and extract it in [the resources folder](./resources/wpm)
+Download and extract it in [the resources folder](./resources/)
 
 The docker build will add it at build time...
 
