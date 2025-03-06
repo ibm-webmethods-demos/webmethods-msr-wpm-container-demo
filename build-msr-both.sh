@@ -7,9 +7,9 @@ WPM_PACKAGES="WmJDBCAdapter:v10.3.2.21 WmMQAdapter:v6.5.0.52"
 docker build \
     -t ${BUILD_IMAGE} \
     -f Dockerfile \
-    --build-arg BASE_IMAGE=${BASE_IMAGE} \
-    --build-arg WPM_TOKEN=${WPM_TOKEN} \
-    --build-arg WPM_PACKAGES=${WPM_PACKAGES} \
+    --build-arg BASE_IMAGE="${BASE_IMAGE}" \
+    --build-arg WPM_TOKEN="${WPM_TOKEN}" \
+    --build-arg WPM_PACKAGES="${WPM_PACKAGES}" \
     .
 
 echo "Done!!"
