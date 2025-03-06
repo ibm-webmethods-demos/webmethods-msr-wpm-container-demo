@@ -1,8 +1,8 @@
 #!/bin/sh
 
 BASE_IMAGE="ibmwebmethods.azurecr.io/webmethods-microservicesruntime:10.15.0.17"
-BUILD_IMAGE="webmethods-microservicesruntime-jdbc:10.15.0.17"
-WPM_PACKAGES="WmJDBCAdapter:v10.3.2.21"
+BUILD_IMAGE="webmethods-microservicesruntime-mq:10.15.0.17"
+WPM_PACKAGES="WmMQAdapter:v6.5.0.52"
 
 docker build \
     -t ${BUILD_IMAGE} \
