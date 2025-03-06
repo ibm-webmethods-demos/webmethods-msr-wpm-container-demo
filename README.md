@@ -5,9 +5,9 @@ A simple project demonstrating how to create new MSR containers with various pac
 
 You'll need to be able to pull the webMethods microservices runtime container from the IBM registry.
 
-This demo is created for the webMethods 10.15 version - 
+NOTE: This demo is created for the webMethods 10.15 version. similar concept applies to the 11.x containers...
 
-Step 1 - Make sure you have access to the 10.15 MSR container 
+Step 1 - Make sure you have access to the MSR 10.15 container
 ------------------------------------------------------------------------
 
 Containers at https://containers.webmethods.io
@@ -20,7 +20,19 @@ And use it in your docker login command:
 docker login ibmwebmethods.azurecr.io
 ```
 
-Step 2 - Make sure you have access to the package manager repository
+Step 2 - download the WPM CLI tool
+------------------------------------------------------------------------
+
+The WPM CLI tool is NOT part of the MSR 10.15 image at this time...
+But we can easily add it...
+
+Find it [in this article](https://community.ibm.com/community/user/integration/viewdocument/running-the-webmethods-cutom-assets)
+
+Download and extract it in [the resources folder](./resources/wpm)
+
+The docker build will add it at build time...
+
+Step 3 - Make sure you have access to the package manager repository
 ------------------------------------------------------------------------
 
 PAckage manager at https://packages.webmethods.io/
@@ -33,7 +45,7 @@ And we'll use it in our docker builds via the ENV variable WPM_TOKEN:
 export WPM_TOKEN=<YOUR TOKEN HERE!!>
 ```
 
-Step 3 - Build the MSR containers with packages
+Step 4 - Build the MSR containers with packages
 ------------------------------------------------------------------------
 
 JDBC adapter package:
