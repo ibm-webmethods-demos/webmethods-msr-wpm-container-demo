@@ -13,7 +13,9 @@ ARG GROUPID=1724
 # comment the lines below if WPM is already part of the container
 ADD --chown=${USERID}:${GROUPID} resources/wpm ${SAG_HOME}/wpm
 WORKDIR ${SAG_HOME}/wpm
-
 RUN ${SAG_HOME}/wpm/bin/wpm.sh install -ws https://packages.webmethods.io -wr licensed -j ${WPM_TOKEN} -d ${SAG_HOME}/IntegrationServer ${WPM_PACKAGES}
 
 WORKDIR /
+
+# Cleanup the wpm from the final image to ensure immutability
+RUN rm -Rf ${SAG_HOME}/wpm
