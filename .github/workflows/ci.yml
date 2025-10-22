@@ -96,16 +96,14 @@ jobs:
             WPM_TOKEN=${{ secrets.WPM_TOKEN }}
             WPM_PACKAGES=${{ env.WPM_PACKAGES }}
           load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner HTML
         continue-on-error: true
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@0.33.1
         with:
-          image-ref: ${{ steps.build-before-sec-scans.outputs.digest }}
+          image-ref: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
           # For now, always succeed when vulns are detected.
-          # Later, we can flip this to '1' to fail builds.
           exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
