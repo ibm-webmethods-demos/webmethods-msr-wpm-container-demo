@@ -137,5 +137,5 @@ jobs:
         with:
           files: |
             digest-${{ env.BUILD_IMAGE_NAME }}.txt
-            trivy-${{ env.BUILD_IMAGE_NAME }}.html
+            trivy-${{ env.BUILD_IMAGE_NAME }}.json
       
