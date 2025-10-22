@@ -11,9 +11,7 @@ on:
       - 'v*'
 
 env:
-  
-  BUILD_REGISTRY: ghcr.io
-  
+    
   # ${{ github.repository }} = <account>/<repo>
   # ${{ github.workflow }} = name of the workflow
   BUILD_IMAGE_NAME: ${{ github.repository }}
@@ -50,18 +48,18 @@ jobs:
         uses: docker/login-action@v3.4.0
         with:
           registry: ${{ env.WEBMETHODS_BASE_REGISTRY }}
-          username: ${{ secrets.ibmwmcr-username }}
-          password: ${{ secrets.ibmwmcr-password }}
+          username: ${{ secrets.webmethods_cr_username }}
+          password: ${{ secrets.webmethods_cr_password }}
       
       # Login against a github registry except on PR
       # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.BUILD_REGISTRY }}
+      - name: Log into registry ghcr.io
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3.4.0
         with:
-          registry: ${{ env.BUILD_REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -69,7 +67,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.BUILD_REGISTRY }}/${{ github.repository_owner }}/${{ env.BUILD_IMAGE_NAME }}
+          images: ghcr.io/${{ github.repository_owner }}/${{ env.BUILD_IMAGE_NAME }}
           tags: |
             type=sha
             type=match,pattern=v(.*),group=1
