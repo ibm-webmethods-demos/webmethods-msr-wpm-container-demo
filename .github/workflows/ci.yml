@@ -19,6 +19,10 @@ env:
   WEBMETHODS_BASE_REGISTRY: ibmwebmethods.azurecr.io
   WEBMETHODS_BASE_REPOSITORY: webmethods-microservicesruntime
   WEBMETHODS_BASE_TAG: "11.1.0.5"
+
+  ## Download url is at: https://www.ibm.com/resources/mrs/assets/mrs_landing_page?source=wpm&lang=en_US
+  WPM_DOWNLOAD_URI: "https://www14.software.ibm.com/sdfdl/v2/regic/fr110574/Xa.2/Xb.MlmXDI-K-4mSoVbC8ikb_5TbjEzMqtKms9qaq7rxKMU/Xc.wpm.zip/Xd./Xf.lPr.D1vk/Xg.13576452/Xi.wpm/XY.regsrvs/XZ.KCet1GiqRfXEcORt9EzCPILjeWJDqAVx/wpm.zip"
+  
   WPM_PACKAGES: WmJDBCAdapter:v10.3.8.21 WmMQAdapter:v6.5.5.52 WmCloudStreams:v11.1.0
 
 jobs:
@@ -34,6 +38,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
+      - name: Install tools on the builder instance
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip curl
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -72,6 +81,10 @@ jobs:
             type=sha
             type=match,pattern=v(.*),group=1
   
+      - name: Download file
+        run: |
+          curl -o wpm.zip ${{ env.WPM_DOWNLOAD_URI }} && unzip wpm.zip
+
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
