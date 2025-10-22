@@ -84,7 +84,7 @@ jobs:
 
       # Build image for scanning
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
+      - name: Build image locally for scanning
         id: build-before-sec-scans
         uses: docker/build-push-action@v6
         with:
@@ -99,19 +99,20 @@ jobs:
           tags: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner HTML
-        continue-on-error: true
+        continue-on-error: false
         uses: aquasecurity/trivy-action@0.33.1
         with:
+          scan-type: image
           image-ref: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
           # For now, always succeed when vulns are detected.
+          # Later, we can flip this to '1' to fail builds.
           exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          format: template
-          template: "@$HOME/.local/bin/trivy-bin/contrib/html.tpl"
-          output: trivy-${{ github.workflow }}.html
-        
+          severity: 'CRITICAL,HIGH'
+          format: json
+          output: trivy-${{ inputs.build-name }}.json
+
       - name: Build and push Docker image
         id: build-and-push-after-sec-scans
         uses: docker/build-push-action@v6
