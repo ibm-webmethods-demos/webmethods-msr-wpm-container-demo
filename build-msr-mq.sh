@@ -1,7 +1,7 @@
 #!/bin/sh
 
-BASE_IMAGE="ibmwebmethods.azurecr.io/webmethods-microservicesruntime:10.15.0.17"
-BUILD_IMAGE="webmethods-microservicesruntime-mq:10.15.0.17"
+BASE_IMAGE="cp.icr.io/cp/webmethods/integration/webmethods-microservicesruntime:11.1.0.3"
+BUILD_IMAGE="webmethods-microservicesruntime-mq:11.1.0.3"
 WPM_PACKAGES="WmMQAdapter:v6.5.0.52"
 
 docker build \
