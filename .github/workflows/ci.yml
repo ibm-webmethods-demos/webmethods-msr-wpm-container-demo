@@ -111,7 +111,7 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
           format: json
-          output: trivy-${{ env.BUILD_IMAGE_NAME }}.json
+          output: trivy-${{ github.workflow }}.json
 
       - name: Build and push Docker image
         id: build-and-push-after-sec-scans
@@ -129,13 +129,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Simple digest descriptor
-        run: echo "Container Digest=${{ steps.build-and-push-after-sec-scans.outputs.digest }}" > digest-${{ env.BUILD_IMAGE_NAME }}.txt
+        run: echo "Container Digest=${{ steps.build-and-push-after-sec-scans.outputs.digest }}" > digest-${{ github.workflow }}.txt
       
       - name: Create Release
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            digest-${{ env.BUILD_IMAGE_NAME }}.txt
-            trivy-${{ env.BUILD_IMAGE_NAME }}.json
+            digest-${{ github.workflow }}.txt
+            trivy-${{ github.workflow }}.json
       
