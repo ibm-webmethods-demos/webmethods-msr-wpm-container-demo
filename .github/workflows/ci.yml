@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: read
+      contents: write # Required for creating releases and uploading assets
       packages: write
       id-token: write
 
