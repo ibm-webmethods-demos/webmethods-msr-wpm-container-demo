@@ -8,7 +8,7 @@ name: webmethods-microservicesruntime-wpm-demo
 on:
   push:
     tags:
-      - 'v-*'
+      - 'v*'
 
 env:
   
