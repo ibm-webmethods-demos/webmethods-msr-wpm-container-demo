@@ -139,6 +139,5 @@ jobs:
         with:
           files: |
             digest-${{ github.workflow }}.txt
-            trivy-${{ github.workflow }}.json
             trivy-${{ github.workflow }}.html
       
