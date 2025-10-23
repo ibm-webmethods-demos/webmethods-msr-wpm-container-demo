@@ -18,7 +18,7 @@ env:
 
   WEBMETHODS_BASE_REGISTRY: ibmwebmethods.azurecr.io
   WEBMETHODS_BASE_REPOSITORY: webmethods-microservicesruntime
-  WEBMETHODS_BASE_TAG: "11.1.0.5"
+  WEBMETHODS_BASE_TAG: "11.1.0.6"
 
   ## WPM tool download is at: https://www.ibm.com/resources/mrs/assets/mrs_landing_page?source=wpm&lang=en_US
   WPM_PACKAGES: WmJDBCAdapter:v10.3.8.21 WmMQAdapter:v6.5.5.52 WmCloudStreams:v11.1.0
