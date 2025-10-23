@@ -18,4 +18,4 @@ RUN ${SAG_HOME}/wpm/bin/wpm.sh install -ws https://packages.webmethods.io -wr li
 WORKDIR /
 
 # Cleanup the wpm from the final image to ensure immutability
-RUN rm -Rf ${SAG_HOME}/wpm
+# RUN rm -Rf ${SAG_HOME}/wpm
