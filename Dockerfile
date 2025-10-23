@@ -6,12 +6,10 @@ FROM ${BASE_IMAGE}
 
 ARG WPM_TOKEN
 ARG WPM_PACKAGES
-ARG USERID=1724
-ARG GROUPID=1724
 
 # Add wpm that is not there
 # comment the lines below if WPM is already part of the container
-ADD --chown=${USERID}:${GROUPID} ./wpm ${SAG_HOME}/wpm
+ADD --chown=sagadmin:root ./wpm ${SAG_HOME}/wpm
 
 WORKDIR ${SAG_HOME}/wpm
 
