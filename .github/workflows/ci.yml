@@ -82,36 +82,36 @@ jobs:
         run: |
           curl -o wpm.zip ${{ secrets.WPM_DOWNLOAD_URI }} && unzip wpm.zip
 
-      # Build image for scanning
-      # https://github.com/docker/build-push-action
-      - name: Build image locally for scanning
-        id: build-before-sec-scans
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile
-          platforms: linux/amd64
-          build-args: |
-            BASE_IMAGE=${{ env.WEBMETHODS_BASE_REGISTRY }}/${{ env.WEBMETHODS_BASE_REPOSITORY }}:${{ env.WEBMETHODS_BASE_TAG }}
-            WPM_TOKEN=${{ secrets.WPM_TOKEN }}
-            WPM_PACKAGES=${{ env.WPM_PACKAGES }}
-          load: true
-          tags: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
+      # # Build image for scanning
+      # # https://github.com/docker/build-push-action
+      # - name: Build image locally for scanning
+      #   id: build-before-sec-scans
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     file: Dockerfile
+      #     platforms: linux/amd64
+      #     build-args: |
+      #       BASE_IMAGE=${{ env.WEBMETHODS_BASE_REGISTRY }}/${{ env.WEBMETHODS_BASE_REPOSITORY }}:${{ env.WEBMETHODS_BASE_TAG }}
+      #       WPM_TOKEN=${{ secrets.WPM_TOKEN }}
+      #       WPM_PACKAGES=${{ env.WPM_PACKAGES }}
+      #     load: true
+      #     tags: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
 
-      - name: Run Trivy vulnerability scanner HTML
-        continue-on-error: false
-        uses: aquasecurity/trivy-action@0.33.1
-        with:
-          scan-type: image
-          image-ref: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
-          # For now, always succeed when vulns are detected.
-          # Later, we can flip this to '1' to fail builds.
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          format: json
-          output: trivy-${{ github.workflow }}.json
+      # - name: Run Trivy vulnerability scanner HTML
+      #   continue-on-error: false
+      #   uses: aquasecurity/trivy-action@0.33.1
+      #   with:
+      #     scan-type: image
+      #     image-ref: ${{env.BUILD_IMAGE_NAME}}:${{ github.sha }}
+      #     # For now, always succeed when vulns are detected.
+      #     # Later, we can flip this to '1' to fail builds.
+      #     exit-code: '0'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'CRITICAL,HIGH'
+      #     format: json
+      #     output: trivy-${{ github.workflow }}.json
 
       - name: Build and push Docker image
         id: build-and-push-after-sec-scans
@@ -128,14 +128,14 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Simple digest descriptor
-        run: echo "Container Digest=${{ steps.build-and-push-after-sec-scans.outputs.digest }}" > digest-${{ github.workflow }}.txt
+      # - name: Simple digest descriptor
+      #   run: echo "Container Digest=${{ steps.build-and-push-after-sec-scans.outputs.digest }}" > digest-${{ github.workflow }}.txt
       
-      - name: Create Release
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            digest-${{ github.workflow }}.txt
-            trivy-${{ github.workflow }}.json
+      # - name: Create Release
+      #   if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     files: |
+      #       digest-${{ github.workflow }}.txt
+      #       trivy-${{ github.workflow }}.json
       
